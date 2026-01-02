@@ -126,6 +126,10 @@ These are connected to the test points on the board. I am reasonably confident I
 
 See `board_reveng.svg`, open in inkscape.
 
+## ESP32 Firmware
+
 ## Protocol
 
+The IWR communicates with the ESP over the UART link. This is the primary connection between the two devices.
 
+See [PROTOCOL.md](PROTOCOL.md) for a description of the protocol over the UART link.
