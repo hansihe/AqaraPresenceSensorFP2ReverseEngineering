@@ -14,6 +14,8 @@ This repo contains a few useful scripts:
 * `sniff_uart_bidir.py` - Uses a `glasgow` to sniff bidirectional uart communication between the ESP32 and IWR (Radar) chips.
 * `test_decode.py` - Script which implements a decoder for `PROTOCOL.md`, decodes files with sniffed protocol dumps.
 
+uv run --project decoder python -m decoder decode <filename> --exclude location_track_data,radar_sw_version
+
 ## Hardware
 
 I have based a lot of this off measurements and tracing a board with some chips removed. See `board_reveng.svg` for my annotations. I would recommend opening this file in Inkscape.
@@ -23,7 +25,7 @@ I have based a lot of this off measurements and tracing a board with some chips 
 * Radar Flash (?): WinBond 25Q64JVIQ
 * MCU: ESP32-WROOM-32U
 * SRAM: AP MEMORY 1604M-3SQR
-* ACCEL: Possibly MEMSIC MC3630?
+* ACCEL: Possibly MiraMEMS da218B
 
 ### Pinouts
 

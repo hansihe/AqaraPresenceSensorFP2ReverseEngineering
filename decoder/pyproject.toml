@@ -1,0 +1,12 @@
+[project]
+name = "decoder"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "glasgow[builtin-toolchain] @ git+https://github.com/GlasgowEmbedded/glasgow@43f174bf58f3ce05e512be6cd2438c4444f1955b#subdirectory=software",
+    "matplotlib>=3.10.8",
+    "pyside6>=6.10.1",
+    "tornado>=6.5.4",
+]

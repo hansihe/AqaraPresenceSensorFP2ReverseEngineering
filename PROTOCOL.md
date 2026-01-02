@@ -48,6 +48,14 @@ Based on captured boot logs, the initialization handshake follows this pattern:
     *   Radar streams `location_track_data` (`0x0117`) approx 10-20Hz (fast).
     *   Radar sends `radar_sw_version` (`0x0102`) approx 1Hz.
 
+### 2.4 Firmware Update
+When a firmware update is initiated:
+1.  **Trigger**: Host sends `ota_set_flag` (`0x0127`) = `TRUE`.
+2.  **Transfer**: Data is transferred using the **XMODEM-1K** protocol.
+    *   **Block Size**: 1024 bytes (STX `0x02`).
+    *   **Structure**: `[STX] [Seq] [~Seq] [Data 1024] [CRC 2]`
+    *   **Flow**: Half-duplex. Host sends block, Radar sends ACK (`0x06`).
+
 ---
 
 ## 3. Architecture: The Attribute System
@@ -64,11 +72,17 @@ The "Command" byte in the UART frame actually defines the *operation* being perf
 
 | Type | Direction | Name | Meaning |
 | :--- | :--- | :--- | :--- |
-| `0x01` | Host <- Dev | **Read Response** | Device returning a requested attribute value. |
+| `0x01` | Host <- Dev | **Response / Rev-Read** | Standard: Value Response. **Reverse**: Read Request (SubID only). |
 | `0x02` | Host -> Dev | **Write Request** | Host setting an attribute value. |
 | `0x03` | Both | **ACK** | Confirmation of a Write or Report. |
-| `0x04` | Host -> Dev | **Read Request** | Host asking for an attribute value. |
+| `0x04` | Host -> Dev | **Read / Rev-Resp** | Standard: Read Request. **Reverse**: Value Response (to 0x01). |
 | `0x05` | Host <- Dev | **Report** | Device spontaneously sending an attribute value (Push). |
+
+### 2.2 Reverse Query Mechanism
+In specific cases (e.g., `device_direction` 0x0143, `angle_sensor_data` 0x0120), the Radar (Slave) queries the ESP (Host).
+*   **Query**: Radar sends `OpCode 0x01` (Response) with `Length=2` (Payload contains ONLY the 2-byte SubID).
+*   **Response**: ESP responds with `OpCode 0x04` (Read) containing the 1-byte value (Total Len=3).
+*   *Note*: This reverses the standard roles. Normally 0x04 is a Request and 0x01 is a Response.
 
 ## 4. Low-Level Transport
 
@@ -123,22 +137,37 @@ The `DataType` byte determines how the rest of the payload is parsed.
 | `0x02` | **UINT32** | 4 | Big Endian |
 | `0x03` | **VOID** | 0 | No data follows. Used for simple triggers/ACKs. |
 | `0x04` | **BOOL** | 1 | `buf[3] != 0` |
-| `0x05` | **STRING (BLOB1)** | $2+N$ | Length (`u16` BE) followed by $N$ bytes of ASCII string. |
-| `0x06` | **BLOB2 (Binary)** | $2+N$ | Length (`u16` BE) followed by $N$ bytes of binary data. |
+| `0x05` | **STRING (BLOB1)** | $2+N$ | **Container**. Length (`u16` BE) followed by $N$ bytes of ASCII string. |
+| `0x06` | **BLOB2 (Binary)** | $2+N$ | **Container**. Length (`u16` BE) followed by $N$ bytes of binary data structure. |
 
 ---
 
+### 4.2 Attribute Data Structures
+**Important**: All identifying "Offset" values below refer to the **inner data** byte array, excluding the 3-byte Attribute Header (`SubID`+`Type`) or the 2-byte BLOB Length header.
 
-### 4.2 Complex Payloads
+#### 4.2.1 The 20x16 Grid Map
+Many zone configuration attributes use a standard **20x16 Grid Map** represented by a **40-byte** bitmask.
+*   **Dimensions**: 20 Rows x 16 Columns (320 cells total).
+*   **Size**: 40 Bytes.
+*   **Encoding**: Row-major. Each row is 2 bytes (16 bits) in a `UINT16` Big-Endian format.
+    *   **Bit 15** (MSB of first byte) = Column 0 (Left)
+    *   **Bit 0** (LSB of second byte) = Column 15 (Right)
+    *   `1` = Cell is Active/Selected.
+    *   `0` = Cell is Inactive/Empty.
 
-#### 4.2.3 Zone Detection Settings (0x0114) **[CERTAIN]**
-This attribute defines the layout of a detection zone. The payload is 41 bytes.
-*   **Zone ID**: `u8` (Byte 0). Identifies the zone being configured (e.g., `0x01` = Zone 1).
-*   **Cell Map**: `u8[40]` (Bytes 1-40). A 320-bit bitmask representing the 320-cell detection grid.
-    *   Each bit corresponds to a cell in the grid.
-    *   `1` = Cell is part of this zone.
-    *   `0` = Cell is not part of this zone.
-    *   *Note: In the cloud/app protocol, this payload is preceded by an 'Operation' byte (1=Add/Update?), making the cloud command 42 bytes.*
+#### 4.2.2 Zone Detection Settings (0x0114) **[VERIFIED]**
+Defines the area for a specific detection zone.
+*   **Type**: `BLOB2` (0x06)
+*   **Total Payload Length**: 43 bytes (2B Len + 41B Data)
+*   **Inner Structure**:
+    *   **Byte 0**: `Zone ID` (`u8`).
+    *   **Bytes 1-40**: `Grid Map` (40 bytes). See 4.2.1.
+
+#### 4.2.3 Zone-Related Maps **[VERIFIED]**
+These attributes contain *only* the **40-byte Grid Map** (inside a BLOB2 container).
+*   **Interference Source (0x0110)**: Map of interference areas.
+*   **Enter/Exit Zone Label (0x0109)**: Map of entry/exit areas (doors/gates).
+*   **Edge Label (0x0107)**: Map of edge areas.
 
 #### 4.2.4 Location Track Data (0x0117) **[VERIFIED]**
 The payload consists of a list of targets. The data is preceded by the standard BLOB header (which contains the total length).
@@ -149,18 +178,18 @@ Inside the BLOB:
 | Offset | Field | Type | Description |
 | :--- | :--- | :--- | :--- |
 | 0 | `TargetID` | `u8` | Unique ID of the tracked target |
-| 1 | `X` | `s16` | X Coordinate (Little Endian in payload, swapped for log?) |
-| 3 | `Y` | `s16` | Y Coordinate |
-| 5 | `Z` | `s16` | Z Coordinate |
-| 7 | `Speed` | `s16` | Speed/Velocity |
-| 9 | `Resolution`| `u16` | Resolution/Distance confidence? |
-| 11 | `Val6` | `u8` | Unknown |
-| 12 | `Val7` | `u8` | Unknown |
-| 13 | `Val8` | `u8` | Unknown |
+| 1 | `X` | `s16` | X Coordinate (Big Endian) |
+| 3 | `Y` | `s16` | Y Coordinate (Big Endian) |
+| 5 | `Z` | `s16` | Z Coordinate (Big Endian) |
+| 7 | `Velocity` | `s16` | Speed/Velocity (Big Endian) |
+| 9 | `SNR` | `s16` | Signal-to-Noise Ratio (Big Endian) |
+| 11 | `Classifier` | `u8` | Target classification type |
+| 12 | `Posture` | `u8` | Posture/orientation state |
+| 13 | `Active` | `u8` | Activity state |
 
-*Note: The coordinate endianness in the raw stream appears to be Little Endian, as the logging code manually swaps bytes `(uVar5 >> 8) | (uVar5 << 8)` to display them.*
+*Note: All multi-byte fields use Big Endian (Network Byte Order) encoding.*
 
-#### 4.2.2 Sleep Data (0x0159) **[VERIFIED]**
+#### 4.2.5 Sleep Data (0x0159) **[VERIFIED]**
 The payload contains sleep tracking information per zone.
 *   **Item Count**: `u8` (Usually 1)
 *   **Items**: Array of 12-byte structures.
@@ -171,6 +200,77 @@ The payload contains sleep tracking information per zone.
 | 1 | `ZoneID` | `u8` | Zone ID |
 | 2 | `Presence` | `u8` | Presence/Occupancy state? |
 | 3-11 | `Unknown`| `u8[9]` | Vital signs or Sleep Stage data (Heart rate, Breath rate, etc.) |
+
+### 4.2.6 Orientation States (Logic Map)
+
+**Key Definitions:**
+
+*   **Primary Angle (X):** Determines the vertical zone (Up vs. Side vs. Down).
+*   **Secondary Angle (Z):** Determines the tilt direction (Normal vs. Reverse).
+*   **Constraint (Y):** Must be "flat" (+-19°) for any state to be valid; otherwise, it is **Invalid (8)**.
+
+| Enum | Name | Primary Angle (X) | Secondary Angle (Z) | Condition |
+| :--- | :--- | :--- | :--- | :--- |
+| **0** | `up` | **< -69°** | -19° to +19° | Face Up (Flat) |
+| **1** | `up tilt` | **-69° to -20°** | < -20° | Tilted Up (Left) |
+| **2** | `up tilt reverse` | **-69° to -20°** | > +20° | Tilted Up (Right) |
+| **3** | `side` | **-20° to +20°** | < -50° | Vertical Side (Left) |
+| **4** | `side reverse` | **-20° to +20°** | > +50° | Vertical Side (Right) |
+| **6** | `down lilt` | **+20° to +70°** | < 0° | Tilted Down (Left) |
+| **7** | `down lilt reverse` | **+20° to +70°** | > 0° | Tilted Down (Right) |
+| **5** | `down` | **> +70°** | -19° to +19° | Face Down (Flat) |
+| **8** | `invalid` | Any | Any | In motion, transition, or **Y-Tilt > 19°** |
+
+#### Visual Logic Flow & Stability
+*   **Debounce:** Entering a new state requires holding that position for **10 consecutive samples**.
+*   **Invalid:** If the device enters the `invalid` state, it forces a **30-sample cooldown** before accepting a new valid state.
+
+---
+
+## 5. Coordinate Systems and Mounting Modes **[VERIFIED]**
+
+The device supports different mounting modes that affect the coordinate system used in location tracking data.
+
+### 5.1 Left and Right Corner Mounting Modes
+When the sensor is mounted in a corner (`wall_corn_pos` = 2 or 3):
+
+*   **Grid Configuration**: 14x14 cells
+*   **Sensor Position**: Placed in the left or right corner of the grid respectively
+*   **Coverage Area**: 7m x 7m total area
+*   **Cell Size**: 0.5m² per cell
+
+**Raw Coordinate Space** (`location_track_data` 0x0117):
+*   **X Range**: -400 to +400
+    *   `X = +400`: Left edge
+    *   `X = -400`: Right edge
+*   **Y Range**: 0 to 800
+    *   `Y = 0`: Top edge (closest to sensor)
+    *   `Y = 800`: Bottom edge (farthest from sensor)
+
+**Coordinate Conversion to Grid Space**:
+```
+Grid_X = (X + 400) / 800.0 * 14.0
+Grid_Y = Y / 800.0 * 14.0
+```
+
+**Real-World Conversion**:
+```
+Real_X_meters = (X + 400) / 800.0 * 7.0
+Real_Y_meters = Y / 800.0 * 7.0
+```
+
+### 5.2 Wall Mounting Mode **[PARTIAL]**
+When the sensor is mounted on a wall (`wall_corn_pos` = 1):
+
+*   **Sensor Position**: Top center of detection area
+*   **Origin**: `X = 0, Y = 0` at sensor location
+*   **Field of View**: Maximum 120° horizontal
+*   **Documented Coverage**:
+    *   Width: 8m
+    *   Depth: 10m
+*   **Coordinate Scaling**: TBD (requires further testing)
+
+*Note: The exact coordinate scaling and grid mapping for wall mounting mode is still under investigation.*
 
 ---
 
@@ -193,26 +293,27 @@ The following table is derived from the firmware's `radar_attribute_table` and `
 ### 6.2 Mode Configuration
 | SubID | Name | Type | RW | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| `0x0105` | `monitor_mode` | `UINT8` | RW | Monitoring Mode (Raw Int, verify in App) |
-| `0x0106` | `closing_setting`| `UINT8` | RW | Closing Setting (Raw Int) |
+| `0x0105` | `monitor_mode` | `UINT8` | RW | "Wall Mounting Settings" "Detection Direction" "Set direction mode of the sensor" (0="Default, detects presence without directions", 1="Left-right detection, detects approaching the sensor from left and right sides" |
+| `0x0106` | `closing_setting`| `UINT8` | RW | "Wall Mounting Settings" Proximity Sensing Distance (0=Far, 1=Med, 2=Close) |
+| `0x0111` | `presence_det_sens` | `UINT8` | RW | "Wall Mounting Settings" Presence Detection Sensitivity (1=Low, 2=Med, 3=High) |
+| `0x0122` | `lr_reverse` | `UINT8` | RW | "Wall Mounting Settings" Left/Right Reverse (0=Consistent, 1=Opposite, 2=Auto) |
 | `0x0116` | `work_mode` | `UINT8` | RW | Work Mode (Raw Int) |
-| `0x0122` | `lr_reverse` | `UINT8` | RW | Left/Right Reverse (Installation) |
-| `0x0127` | `ota_set_flag` | `?` | W | OTA Update Flag |
+| `0x0127` | `ota_set_flag` | `BOOL` | W | OTA Update Flag (Triggers XMODEM) |
 | `0x0143` | `device_direction`| `?` | R | Device Direction (Installation) |
 
 ### 6.3 Detection Zones & Configuration
 | SubID | Name | Type | RW | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | `0x0107` | `edge_label` | `BLOB2` | RW | Edge Label (40-byte Grid Map) |
-| `0x0109` | `imp_exp_label` | `BLOB2` | RW | Import/Export Label (40-byte Map) |
+| `0x0109` | `enter_exit_label` | `BLOB2` | RW | Enter/Exit Zone Label (40-byte Map) |
 | `0x0110` | `interfer_src` | `BLOB2` | RW | Interference Source (40-byte Map) |
 | `0x0114` | `zone_det_set` | `BLOB2` | RW | Zone Set (1B ZoneID + 40B Map) |
 | `0x0150` | `edge_auto_en` | `BOOL` | RW | Edge Auto Enable |
-| `0x0151` | `zone_sens` | `UINT16` | RW | Zone Sensitivity Array |
-| `0x0152` | `detect_zone_type`| `UINT16` | RW | Reference Zone Type Array |
-| `0x0153` | `zone_cls_away`| `UINT16` | RW | Close/Away Zone Enable |
+| `0x0151` | `zone_sens` | `UINT16` | RW | Zone Sens (`Hi=ZoneID, Lo=Sens`). 1=Low, 2=Med, 3=High. |
+| `0x0152` | `detect_zone_type`| `UINT16` | RW | Zone Type (`Hi=ZoneID, Lo=Type`). 2=TV, 10=GreenPlant, 11=Leisure, 13=Dressing, 14=Closet, 15=Desk, 23=Shower, 36=Stairs. |
+| `0x0153` | `zone_cls_away`| `UINT16` | RW | Close/Away Enable (`Hi=ZoneID, Lo=Enable`). 1=On, 0=Off. |
 | `0x0160` | `del_false_tgt` | `UINT8` | W | Delete False Target |
-| `0x0163` | `tgt_type_en` | `BOOL` | RW | Target Type Detection Enable |
+| `0x0163` | `tgt_type_en` | `BOOL` | RW | Target Type Detection Enable "AI Person Detection" "After enabled, FP2 employs AI to identify robot vacuums, pets, and mobile toys as interference objects, thereby reducing false alarms during presence detection. However, babies and children on the ground may also be mistakenly classified as such." |
 | `0x0149` | `edge_auto_set` | `BLOB2` | RW | Edge Auto Setting |
 | `0x0125` | `inter_auto_set` | `BLOB2` | RW | Interference Auto Setting |
 
@@ -223,16 +324,14 @@ The following table is derived from the firmware's `radar_attribute_table` and `
 | `0x0117` | `loc_track_data`| `BLOB2` | Rep| **Location Tracking Data** (See 4.2.1) |
 | `0x0155` | `people_counting`| `BLOB2` | Rep| People Counting (7B: ID, ValA, ValB) |
 | `0x0157` | `posture_rep_en`| `BOOL` | RW | Posture Report Enable |
-| `0x0158` | `ppl_cnt_rep_en`| `BOOL` | RW | People Counting Report Enable |
-| `0x0162` | `ppl_num_en` | `BOOL` | RW | People Number Enable |
+| `0x0158` | `ppl_cnt_rep_en`| `BOOL` | RW | People Counting Report Enable "Advanced Functions" "Visits Count" "After enabling, it will count the cumulative number of visits for the entire area and each zone (counting is not performed when the function is turned off" |
+| `0x0162` | `ppl_num_en` | `BOOL` | RW | People Number Enable "Advanced Functions" "Current Count" "When enabled, both Current count and Hourly count will be displayed (no data when disabled)" |
 | `0x0164` | `realtime_ppl` | `UINT32` | Rep| Realtime People Number |
 | `0x0165` | `ontime_ppl` | `UINT32` | Rep| Ontime People Number |
 | `0x0166` | `realtime_cnt` | `UINT32` | Rep| Realtime People Counting |
-| `0x0175` | `zone_ppl_num` | `UINT16` | Rep| Zone People Number (`0xZZNN`) |
-
-### 6.5 Sleep & Wellness
-| SubID | Name | Type | RW | Description |
-| :--- | :--- | :--- | :--- | :--- |
+| `0x0115` | `detect_zone_motion`| `UINT16` | Rep | Zone Motion Event (`Hi=ZoneID, Lo=Type`). Type: 1=Enter, 2=Move, 4=Exit, 8=L/R, 16=Interference? |
+| `0x0142` | `zone_presence` | `UINT16` | Rep | Zone Presence State (`Hi=ZoneID, Lo=State`). State: 1=Occupied, 0=Empty. |
+| `0x0170` | `wall_corn_pos` | `UINT8` | RW | Wall Corner Position (1=Wall, 2=Left Corner, 3=Right Corner) |
 | `0x0156` | `sleep_rep_en` | `BOOL` | RW | Sleep Report Enable |
 | `0x0159` | `sleep_data` | `BLOB2` | Rep| Sleep Data (See 4.2.2) |
 | `0x0161` | `sleep_state` | `UINT8` | Rep| Sleep State (Enum: InBed/Out/Awake?) |
@@ -256,7 +355,7 @@ The following table is derived from the firmware's `radar_attribute_table` and `
 | `0x0142` | `zone_presence` | `UINT16` | Rep| Zone Presence Map (Bitmask?) |
 | `0x0170` | `wall_corn_pos` | `UINT8` | RW | Wall Corner Mount Position |
 | `0x0172` | `dwell_time_en` | `BOOL` | RW | Dwell Time Enable |
-| `0x0173` | `walk_dist_en` | `BOOL` | RW | Walking Distance Enable |
+| `0x0173` | `walk_dist_en` | `BOOL` | RW | Walking Distance Enable "Advanced Functions" "Accumulated travel distance" "The cumulative traveled distance function is suitable for single-person scenarios. By tracking the target trajectory in real time and counting daily travelled distance of the target in the entire area, it can reflect daily activities of the single-person target. It is recommended to enable scenarios such as elderly care and health care" |
 | `0x0174` | `walk_dist_all` | `UINT32` | Rep| Walking Dist Total |
 
 ## 7. Reverse Engineering Focus

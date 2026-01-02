@@ -1,0 +1,322 @@
+
+==================== test_decode/sniff_data_install_configure_sleep_detection.txt ====================
+[Radar->ESP] <REP location_track_data              (0117) Seq:93  : BLOB[15] 01 04 fe cc 00 6d 00 00 00 15 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:5376 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:93  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:94  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:95  : BLOB[15] 01 04 fe cc 00 6d 00 00 00 1b 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:6912 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:95  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:96  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:97  : BLOB[15] 01 04 fe cc 00 6d 00 00 00 1b 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:6912 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:97  : OK
+[Radar->ESP] <REP location_track_data              (0117) Seq:98  : BLOB[15] 01 04 fe cc 00 6d 00 00 00 17 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:5888 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:98  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:99  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:100 : BLOB[15] 01 04 fe cc 00 6d 00 00 00 17 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:5888 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:100 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:101 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:102 : BLOB[15] 01 04 fe cc 00 6d 00 00 00 17 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:5888 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:102 : OK
+[Radar->ESP] <REP location_track_data              (0117) Seq:103 : BLOB[15] 01 04 fe cc 00 6d 00 00 00 17 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:5888 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:103 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:104 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:105 : BLOB[15] 01 04 fe cc 00 6d 00 00 00 17 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:5888 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:105 : OK
+[Radar->ESP] <REP location_track_data              (0117) Seq:106 : BLOB[15] 01 04 fe cc 00 6d 00 00 00 00 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:106 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:107 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:108 : BLOB[15] 01 04 fe cc 00 6d 00 00 00 00 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:108 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:109 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:110 : BLOB[15] 01 04 fe cc 00 6d 00 00 00 00 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:110 : OK
+[Radar->ESP] <REP location_track_data              (0117) Seq:111 : BLOB[15] 01 04 fe cc 00 6d 00 00 00 17 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:5888 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:111 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:112 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:113 : BLOB[15] 01 04 fe cc 00 6d 00 00 00 07 00 00 00 02 01
+    Target Count: 1
+      #4: [-13058, 27904, 0] Speed:1792 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:113 : OK
+[ESP->Radar] WRT> zone_detect_setting              (0114) Seq:61  : BLOB[41] 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    Zone ID: 0
+    Map (20x16):
+      00: ................................
+      01: ................................
+      02: ................................
+      03: ................................
+      04: ................................
+      05: ................................
+      06: ................................
+      07: ................................
+      08: ................................
+      09: ................................
+      10: ................................
+      11: ................................
+      12: ................................
+      13: ................................
+      14: ................................
+      15: ................................
+      16: ................................
+      17: ................................
+      18: ................................
+      19: ................................
+[Radar->ESP] <ACK zone_detect_setting              (0114) Seq:114 : OK
+[ESP->Radar] WRT> work_mode                        (0116) Seq:62  : 9 (0x09)
+[Radar->ESP] <REP motion_detection                 (0103) Seq:115 : 1 (0x01)
+[Radar->ESP] <REP location_track_data              (0117) Seq:116 : BLOB[1] 00
+    Target Count: 0
+[Radar->ESP] <ACK work_mode                        (0116) Seq:117 : OK
+[ESP->Radar] <ACK motion_detection                 (0103) Seq:115 : OK
+[ESP->Radar] <ACK location_track_data              (0117) Seq:116 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:0   : 98 (0x62)
+[Radar->ESP] <REP work_mode                        (0116) Seq:1   : 9 (0x09)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:2   : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:3   : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:4   : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:5   : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:6   : 98 (0x62)
+[ESP->Radar] WRT> zone_detect_setting              (0114) Seq:63  : BLOB[41] 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    Zone ID: 0
+    Map (20x16):
+      00: ................................
+      01: ................................
+      02: ................................
+      03: ................................
+      04: ................................
+      05: ................................
+      06: ................................
+      07: ................................
+      08: ................................
+      09: ................................
+      10: ................................
+      11: ................................
+      12: ................................
+      13: ................................
+      14: ................................
+      15: ................................
+      16: ................................
+      17: ................................
+      18: ................................
+      19: ................................
+[Radar->ESP] <ACK zone_detect_setting              (0114) Seq:7   : OK
+[ESP->Radar] WRT> location_report_enable           (0112) Seq:64  : TRUE
+[Radar->ESP] <ACK location_report_enable           (0112) Seq:8   : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:9   : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:10  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:11  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:12  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:13  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:14  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:15  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:16  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:17  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:18  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:19  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:20  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:21  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:22  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:23  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:24  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:25  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:26  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:27  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:28  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:29  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:30  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:31  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:32  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:33  : 98 (0x62)
+[Radar->ESP] <RSP device_direction                 (0143) Seq:34  : TRUNCATED
+[ESP->Radar] REQ> device_direction                 (0143) Seq:34  : 2 (0x02)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:35  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:36  : 98 (0x62)
+[ESP->Radar] WRT> sleep_zone_size                  (0169) Seq:65  : 7864500 (0x007800b4)
+[Radar->ESP] <ACK sleep_zone_size                  (0169) Seq:37  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:38  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:39  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:40  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:41  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:42  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:43  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:44  : 98 (0x62)
+[Radar->ESP] <REP debug_log                        (0201) Seq:45  : STR[43] in value=126, threshold=15, X:0.13, Y:1.24 
+[Radar->ESP] <REP debug_log                        (0201) Seq:46  : STR[39] X:0.13,Y:1.24,Z:-0.44,Pnt:50,Lnt:0,R:6 
+[Radar->ESP] <REP sleep_inout_state                (0171) Seq:47  : 0 (0x00)
+[Radar->ESP] <REP sleep_presence                   (0167) Seq:48  : 1 (0x01)
+[Radar->ESP] <REP sleep_data                       (0159) Seq:49  : BLOB[12] 06 00 00 46 00 00 0f 00 00 01 03 01
+[ESP->Radar] <ACK sleep_inout_state                (0171) Seq:47  : OK
+[ESP->Radar] <ACK sleep_presence                   (0167) Seq:48  : OK
+[ESP->Radar] <ACK sleep_data                       (0159) Seq:49  : OK
+[Radar->ESP] <REP location_track_data              (0117) Seq:50  : BLOB[15] 01 06 00 12 00 79 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [4608, 30976, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:50  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:51  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:52  : BLOB[15] 01 06 00 06 00 67 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [1536, 26368, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:52  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:53  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:54  : BLOB[15] 01 06 00 10 00 63 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [4096, 25344, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:54  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:55  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:56  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:57  : BLOB[15] 01 06 00 04 00 52 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [1024, 20992, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:57  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:58  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:59  : BLOB[15] 01 06 00 0e 00 3b 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [3584, 15104, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:59  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:60  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:61  : BLOB[15] 01 06 00 0c 00 30 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [3072, 12288, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:61  : OK
+[Radar->ESP] <REP sleep_state                      (0161) Seq:62  : 1 (0x01)
+[Radar->ESP] <REP sleep_data                       (0159) Seq:63  : BLOB[12] 06 00 00 46 00 32 0f 00 32 05 05 02
+[ESP->Radar] <ACK sleep_state                      (0161) Seq:62  : OK
+[ESP->Radar] <ACK sleep_data                       (0159) Seq:63  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:64  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:65  : BLOB[15] 01 06 00 07 00 43 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [1792, 17152, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:65  : OK
+[ESP->Radar] WRT> sleep_zone_mount_position        (0168) Seq:66  : 1 (0x01)
+[Radar->ESP] <ACK sleep_zone_mount_position        (0168) Seq:66  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:67  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:68  : BLOB[15] 01 06 00 21 00 55 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [8448, 21760, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:68  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:69  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:70  : BLOB[15] 01 06 00 32 00 5d 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [12800, 23808, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:70  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:71  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:72  : BLOB[15] 01 06 00 2a 00 57 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [10752, 22272, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:72  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:73  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:74  : BLOB[15] 01 06 00 32 00 56 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [12800, 22016, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:74  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:75  : 98 (0x62)
+[Radar->ESP] <REP sleep_data                       (0159) Seq:76  : BLOB[12] 06 00 00 46 00 32 10 00 32 06 05 02
+[ESP->Radar] <ACK sleep_data                       (0159) Seq:76  : OK
+[Radar->ESP] <REP location_track_data              (0117) Seq:77  : BLOB[15] 01 06 00 33 00 53 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [13056, 21248, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:77  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:78  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:79  : BLOB[15] 01 06 00 37 00 58 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [14080, 22528, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:79  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:80  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:81  : BLOB[15] 01 06 00 37 00 58 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [14080, 22528, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:81  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:82  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:83  : BLOB[15] 01 06 00 37 00 58 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [14080, 22528, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:83  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:84  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:85  : BLOB[15] 01 06 00 37 00 58 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [14080, 22528, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:85  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:86  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:87  : BLOB[15] 01 06 00 37 00 58 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [14080, 22528, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:87  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:88  : 98 (0x62)
+[Radar->ESP] <REP sleep_data                       (0159) Seq:89  : BLOB[12] 06 00 00 46 00 32 0f 00 32 04 01 02
+[ESP->Radar] <ACK sleep_data                       (0159) Seq:89  : OK
+[Radar->ESP] <REP location_track_data              (0117) Seq:90  : BLOB[15] 01 06 00 37 00 58 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [14080, 22528, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:90  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:91  : 98 (0x62)
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:92  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:93  : BLOB[15] 01 06 00 30 00 54 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [12288, 21504, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:93  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:94  : 98 (0x62)
+[Radar->ESP] <RSP device_direction                 (0143) Seq:95  : TRUNCATED
+[ESP->Radar] REQ> device_direction                 (0143) Seq:95  : 2 (0x02)
+[Radar->ESP] <REP location_track_data              (0117) Seq:96  : BLOB[15] 01 06 00 32 00 50 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [12800, 20480, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:96  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:97  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:98  : BLOB[15] 01 06 00 2c 00 4c 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [11264, 19456, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:98  : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:99  : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:100 : BLOB[15] 01 06 00 26 00 50 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [9728, 20480, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:100 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:101 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:102 : BLOB[15] 01 06 00 1f 00 33 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [7936, 13056, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:102 : OK
+[Radar->ESP] <REP sleep_data                       (0159) Seq:103 : BLOB[12] 06 00 00 46 00 32 0e 00 32 06 01 02
+[ESP->Radar] <ACK sleep_data                       (0159) Seq:103 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:104 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:105 : BLOB[15] 01 06 00 28 00 3a 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [10240, 14848, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:105 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:106 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:107 : BLOB[15] 01 06 00 2e 00 6c 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [11776, 27648, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:107 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:108 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:109 : BLOB[15] 01 06 00 27 00 6e 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [9984, 28160, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:109 : OK
+[Radar->ESP] <REP radar_sw_version                 (0102) Seq:110 : 98 (0x62)
+[Radar->ESP] <REP location_track_data              (0117) Seq:111 : BLOB[15] 01 06 00 2d 00 84 00 00 00 00 00 00 00 00 00
+    Target Count: 1
+      #6: [11520, -31744, 0] Speed:0 Res:0
+[ESP->Radar] <ACK location_track_data              (0117) Seq:111 : OK

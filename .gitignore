@@ -1,1 +1,6 @@
 decomp_dump*
+.esphome
+/sniff_data_*
+__pycache__
+VISUAL_MAP.md
+esp-backup*.bin
