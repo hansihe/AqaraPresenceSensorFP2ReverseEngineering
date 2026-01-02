@@ -2,6 +2,18 @@
 
 I spent some time a while ago reverse engineering parts of the Aqara FP2. This repo contains my notes/resources so far.
 
+## Protocol
+
+The IWR communicates with the ESP over the UART link. This is the primary connection between the two devices.
+
+See [PROTOCOL.md](PROTOCOL.md) for a description of the protocol over the UART link.
+
+## Scripts
+
+This repo contains a few useful scripts:
+* `sniff_uart_bidir.py` - Uses a `glasgow` to sniff bidirectional uart communication between the ESP32 and IWR (Radar) chips.
+* `test_decode.py` - Script which implements a decoder for `PROTOCOL.md`, decodes files with sniffed protocol dumps.
+
 ## Hardware
 
 I have based a lot of this off measurements and tracing a board with some chips removed. See `board_reveng.svg` for my annotations. I would recommend opening this file in Inkscape.
@@ -128,8 +140,3 @@ See `board_reveng.svg`, open in inkscape.
 
 ## ESP32 Firmware
 
-## Protocol
-
-The IWR communicates with the ESP over the UART link. This is the primary connection between the two devices.
-
-See [PROTOCOL.md](PROTOCOL.md) for a description of the protocol over the UART link.
